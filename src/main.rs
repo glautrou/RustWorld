@@ -1,7 +1,7 @@
-use ferris_says::say;
-use std::io::{stdout, BufWriter};
+//use ferris_says::say;
+//use std::io::{stdout, BufWriter};
 
-fn main() {
+/*fn main() {
     println!("Hello, world!");
 
     let stdout = stdout();
@@ -10,4 +10,17 @@ fn main() {
 
     let mut writer = BufWriter::new(stdout.lock());
     say(message.as_bytes(), width, &mut writer).unwrap();
+}*/
+
+#[macro_use]
+extern crate rocket;
+
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, world!"
+}
+
+#[launch]
+fn rocket() -> _ {
+    rocket::build().mount("/", routes![index])
 }
