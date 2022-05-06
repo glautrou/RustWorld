@@ -12,7 +12,7 @@
     say(message.as_bytes(), width, &mut writer).unwrap();
 }*/
 
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+/*use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 
 #[get("/")]
 async fn hello() -> impl Responder {
@@ -39,4 +39,40 @@ async fn main() -> std::io::Result<()> {
     .bind(("127.0.0.1", 8080))?
     .run()
     .await
+}*/
+
+use rand::Rng;
+use std::{cmp::Ordering, io};
+
+fn main() {
+    println!("Start");
+
+    let secret = rand::thread_rng().gen_range(0..=100);
+    println!("Secret number= {}", secret);
+
+    loop {
+        println!("Please guess the magic number:");
+        let mut guess = String::new();
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Invalid input!");
+                continue;
+            }
+        };
+
+        println!("You guessed {}", guess);
+        match guess.cmp(&secret) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
 }
